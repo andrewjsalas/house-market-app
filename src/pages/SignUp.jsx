@@ -41,6 +41,13 @@ function SignUp() {
         displayName: name
       })
 
+      // Adds user to firestore database and deletes the password
+      const formDataCopy = {...formData}
+      delete formDataCopy.password
+      formDataCopy.timestamp = serverTimestamp()
+
+      await setDoc(doc(db, 'users', user.uid), formDataCopy)
+
       navigate('/')
     } catch (error) {
       console.log(error)
